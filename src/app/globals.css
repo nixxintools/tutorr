@@ -1,0 +1,184 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-base: #07091a;
+  --bg-surface: #0d1128;
+  --bg-card: #111827;
+  --bg-raised: #1a2035;
+  --bg-input: rgba(255, 255, 255, 0.06);
+
+  --border: rgba(255, 255, 255, 0.07);
+  --border-md: rgba(255, 255, 255, 0.12);
+  --border-lg: rgba(255, 255, 255, 0.18);
+
+  --text: rgba(255, 255, 255, 0.88);
+  --text-muted: rgba(255, 255, 255, 0.44);
+  --text-faint: rgba(255, 255, 255, 0.25);
+
+  --violet: #7c3aed;
+  --blue: #2563eb;
+  --grad: linear-gradient(135deg, #7c3aed, #2563eb);
+
+  --math: #7c3aed;
+  --reading: #059669;
+  --science: #d97706;
+  --writing: #ec4899;
+
+  --gradient-hero: linear-gradient(135deg, #0f172a 0%, #1b1f3b 50%, #312e81 100%);
+  --gradient-brand: linear-gradient(135deg, #7c3aed 0%, #2563eb 100%);
+  --gradient-card: linear-gradient(135deg, #f8f7ff 0%, #eef2ff 100%);
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulseDot {
+  0%,
+  80%,
+  100% {
+    opacity: 0.3;
+  }
+  40% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.float-gentle {
+  animation: float 3s ease-in-out infinite;
+}
+
+.typing-dot {
+  animation: pulseDot 1.2s ease-in-out infinite;
+}
+
+.page-enter {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+@layer base {
+  button {
+    @apply cursor-pointer transition-transform duration-200 active:scale-95;
+  }
+}
+
+@layer components {
+  .card-polish {
+    @apply transition-shadow duration-200 hover:shadow-md;
+  }
+}
+
+body {
+  background-color: var(--bg-base);
+  color: var(--text);
+  font-family: var(--font-dm, "DM Sans", sans-serif);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-sora, "Sora", sans-serif);
+}
+
+/* Auth page dark input placeholders */
+.auth-input::placeholder {
+  color: rgba(255, 255, 255, 0.25);
+}
+
+/* Auth input focus ring */
+.auth-input:focus {
+  outline: none;
+  border-color: rgba(124, 58, 237, 0.6);
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.12);
+}
+
+/* Smooth card fade-in on auth pages */
+.auth-card-enter {
+  animation: authCardIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes authCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Landing page responsive */
+@media (max-width: 1024px) {
+  .how-row-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .roles-grid-3 {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  .stats-grid-4 {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .landing-section-padding {
+    padding: 60px 24px !important;
+  }
+
+  .landing-nav {
+    padding: 14px 24px !important;
+  }
+
+  .hero-padding {
+    padding: 60px 24px 48px !important;
+  }
+
+  .roles-grid-3 {
+    grid-template-columns: 1fr !important;
+  }
+
+  .stats-grid-4 {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  .cta-card-padding {
+    padding: 48px 32px !important;
+  }
+
+  .footer-responsive {
+    flex-direction: column !important;
+    text-align: center !important;
+  }
+}

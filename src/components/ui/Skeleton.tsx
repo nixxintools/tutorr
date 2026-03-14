@@ -1,0 +1,19 @@
+import clsx from "clsx";
+
+type SkeletonProps = {
+  className?: string;
+};
+
+export function Skeleton({ className }: SkeletonProps) {
+  return (
+    <div
+      className={clsx("rounded-xl", className)}
+      style={{
+        background:
+          "linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 100%)",
+        backgroundSize: "200% 100%",
+        animation: "shimmer 1.5s infinite",
+      }}
+    />
+  );
+}
