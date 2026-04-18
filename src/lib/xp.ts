@@ -1,4 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export async function awardXP(
   supabase: any,
   userId: string,
@@ -14,7 +14,6 @@ export async function awardXP(
   })
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function checkAndAwardAchievements(supabase: any, userId: string) {
   const { count: sessions } = await supabase
     .from('conversations')
@@ -50,7 +49,6 @@ export async function checkAndAwardAchievements(supabase: any, userId: string) {
   if ((xpData?.current_streak ?? 0) >= 7) await grantAchievement(supabase, userId, 'streak_7')
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function grantAchievement(supabase: any, userId: string, code: string) {
   const { error } = await supabase.from('student_achievements').insert({ user_id: userId, achievement_code: code })
   if (!error) {
