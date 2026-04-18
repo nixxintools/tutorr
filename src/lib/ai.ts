@@ -25,17 +25,18 @@ function stripCodeFences(input: string) {
 }
 
 async function callOpenAI(messages: ChatMessage[], systemPrompt: string) {
-  const apiKey = process.env.OPENAI_API_KEY
-  if (!apiKey) throw new Error('OPENAI_API_KEY not set')
+  const apiKey = process.env.OPENROUTER_API_KEY
+  if (!apiKey) throw new Error('OPENROUTER_API_KEY not set')
 
-  const response = await fetch('https://api.openai.com/v1/chat/completions', {
+  const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${apiKey}`,
+      'HTTP-Referer': 'https://tutorr.vercel.app',
     },
     body: JSON.stringify({
-      model: 'gpt-4o-mini',
+      model: 'openai/gpt-4o-mini',
       messages: [{ role: 'system', content: systemPrompt }, ...messages],
       max_tokens: 600,
       temperature: 0.7,
@@ -117,7 +118,7 @@ export async function generateAIText(messages: ChatMessage[], systemPrompt: stri
   const errors: string[] = []
   let reply = ''
 
-  if (!reply && process.env.OPENAI_API_KEY) {
+  if (!reply && process.env.OPENROUTER_API_KEY) {
     try {
       reply = await callOpenAI(messages, systemPrompt)
     } catch (error) {
@@ -164,17 +165,18 @@ export async function generateAIJson<T>(messages: ChatMessage[], systemPrompt: s
 }
 
 async function callOpenAIVision(publicUrl: string, prompt: string) {
-  const apiKey = process.env.OPENAI_API_KEY
-  if (!apiKey) throw new Error('OPENAI_API_KEY not set')
+  const apiKey = process.env.OPENROUTER_API_KEY
+  if (!apiKey) throw new Error('OPENROUTER_API_KEY not set')
 
-  const response = await fetch('https://api.openai.com/v1/chat/completions', {
+  const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${apiKey}`,
+      'HTTP-Referer': 'https://tutorr.vercel.app',
     },
     body: JSON.stringify({
-      model: 'gpt-4o-mini',
+      model: 'openai/gpt-4o-mini',
       messages: [
         {
           role: 'user',
@@ -239,7 +241,7 @@ export async function analyzeImageWithAI(publicUrl: string): Promise<{ data: Vis
   const errors: string[] = []
   let raw = ''
 
-  if (!raw && process.env.OPENAI_API_KEY) {
+  if (!raw && process.env.OPENROUTER_API_KEY) {
     try {
       raw = await callOpenAIVision(publicUrl, prompt)
     } catch (error) {
