@@ -24,7 +24,12 @@ function stripCodeFences(input: string) {
   return input.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '').trim()
 }
 
-async function callOpenAI(messages: ChatMessage[], systemPrompt: string) {
+const OPENROUTER_MODELS = [
+  'google/gemma-4-26b-a4b-it:free',
+  'meta-llama/llama-4-scout:free',
+]
+
+async function callOpenRouterModel(model: string, messages: ChatMessage[], systemPrompt: string) {
   const apiKey = process.env.OPENROUTER_API_KEY
   if (!apiKey) throw new Error('OPENROUTER_API_KEY not set')
 
@@ -36,7 +41,7 @@ async function callOpenAI(messages: ChatMessage[], systemPrompt: string) {
       'HTTP-Referer': 'https://tutorr.vercel.app',
     },
     body: JSON.stringify({
-      model: 'google/gemma-4-26b-a4b-it:free',
+      model,
       messages: [{ role: 'system', content: systemPrompt }, ...messages],
       max_tokens: 600,
       temperature: 0.7,
@@ -46,11 +51,23 @@ async function callOpenAI(messages: ChatMessage[], systemPrompt: string) {
   if (!response.ok) {
     const err = await response.json().catch(() => ({}))
     const errMsg = (err as { error?: { message?: string } }).error?.message ?? response.statusText
-    throw new Error(`OpenAI: ${errMsg}`)
+    throw new Error(`OpenRouter (${model}): ${errMsg}`)
   }
 
   const data = (await response.json()) as { choices?: Array<{ message?: { content?: string } }> }
   return data.choices?.[0]?.message?.content?.trim() ?? ''
+}
+
+async function callOpenAI(messages: ChatMessage[], systemPrompt: string) {
+  let lastError = ''
+  for (const model of OPENROUTER_MODELS) {
+    try {
+      return await callOpenRouterModel(model, messages, systemPrompt)
+    } catch (err) {
+      lastError = err instanceof Error ? err.message : String(err)
+    }
+  }
+  throw new Error(lastError)
 }
 
 async function callGemini(messages: ChatMessage[], systemPrompt: string) {
@@ -176,7 +193,7 @@ async function callOpenAIVision(publicUrl: string, prompt: string) {
       'HTTP-Referer': 'https://tutorr.vercel.app',
     },
     body: JSON.stringify({
-      model: 'google/gemma-4-26b-a4b-it:free',
+      model: 'meta-llama/llama-4-scout:free',
       messages: [
         {
           role: 'user',
