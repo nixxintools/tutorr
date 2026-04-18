@@ -25,9 +25,9 @@ function stripCodeFences(input: string) {
 }
 
 const OPENROUTER_MODELS = [
-  'google/gemma-4-26b-a4b-it:free',
+  'z-ai/glm-4.5-air:free',
   'meta-llama/llama-3.3-70b-instruct:free',
-  'openai/gpt-oss-20b:free',
+  'google/gemma-4-26b-a4b-it:free',
 ]
 
 async function callOpenRouterModel(model: string, messages: ChatMessage[], systemPrompt: string) {
@@ -194,7 +194,7 @@ async function callOpenAIVision(publicUrl: string, prompt: string) {
       'HTTP-Referer': 'https://tutorr.vercel.app',
     },
     body: JSON.stringify({
-      model: 'meta-llama/llama-3.3-70b-instruct:free',
+      model: 'z-ai/glm-4.5-air:free',
       messages: [
         {
           role: 'user',
