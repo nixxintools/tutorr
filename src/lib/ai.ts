@@ -36,7 +36,7 @@ async function callOpenAI(messages: ChatMessage[], systemPrompt: string) {
       'HTTP-Referer': 'https://tutorr.vercel.app',
     },
     body: JSON.stringify({
-      model: 'openai/gpt-4o-mini',
+      model: 'google/gemma-4-26b-a4b-it:free',
       messages: [{ role: 'system', content: systemPrompt }, ...messages],
       max_tokens: 600,
       temperature: 0.7,
@@ -176,7 +176,7 @@ async function callOpenAIVision(publicUrl: string, prompt: string) {
       'HTTP-Referer': 'https://tutorr.vercel.app',
     },
     body: JSON.stringify({
-      model: 'openai/gpt-4o-mini',
+      model: 'google/gemma-4-26b-a4b-it:free',
       messages: [
         {
           role: 'user',
