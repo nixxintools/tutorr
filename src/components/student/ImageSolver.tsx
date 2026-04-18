@@ -1,6 +1,6 @@
 'use client'
 
-import { Camera, X } from 'lucide-react'
+import { Camera } from 'lucide-react'
 import { useCallback, useMemo, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { createClient } from '@/lib/supabase/client'

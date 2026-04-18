@@ -8,6 +8,7 @@ type VisionAnalysisResult = {
   description: string
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function extractTextFromUnknown(value: unknown): string {
   if (typeof value === 'string') return value
   if (Array.isArray(value)) return value.map(extractTextFromUnknown).join('\n')
